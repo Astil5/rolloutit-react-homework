@@ -3,14 +3,20 @@ import {FC} from 'react';
 import cstyle from '../syles/Contributor.module.css'
 
 interface ContributorProps{
-    text?: string;
+    login: string;
+    id: number;
+    avatar_url: string;
+    contributions: number;
+    repos_url: string;
+    html_url: string;
+    key: number;
 }
 
 const Contributor:FC<ContributorProps> = (props)=>
 {
     return <>
         <div className={cstyle.contributor_card}>
-            {props.text}
+            {props.login}
         </div>
     </>
 }
