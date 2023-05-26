@@ -2,7 +2,11 @@
 {
     display: grid;
     grid-template-columns: auto auto auto auto;
-    
+    overflow-y: scroll;
     background-color: #efefef;
     padding: 10px;
+    height:80vh;
+}
+.text{
+    height:10vh;
 }

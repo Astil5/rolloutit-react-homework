@@ -1,4 +1,4 @@
-import {FC, useState, useEffect} from 'react';
+import {FC, useState, useEffect, UIEvent} from 'react';
 import { Octokit} from "octokit";
 
 import Contributor from './Contributor';
@@ -28,6 +28,8 @@ interface contributorType{
 
 const ContributorList:FC<ContributorListProps> = (props)=>
 {
+
+    let pageCounter = 1
     const [contributors, setContributors] = useState<Array<contributorType>>([])
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -51,23 +53,44 @@ const ContributorList:FC<ContributorListProps> = (props)=>
                     repos_url: _contributor.repos_url, html_url: _contributor.html_url}
                 setContributors(contributors => [...contributors, contributor ]);
             })
+            setIsLoading(false) 
+            return response.data
         }
         catch(error: any){
             console.log(error.message)
+            return undefined
         }
     }
-    
 
     useEffect(() => {
         setIsLoading(true)
-        getContributors(1)
-        setIsLoading(false)        
+        getContributors(pageCounter)
+       
       },[])
       
-      
+    
+    const handleScroll = (target: any ): void =>{
+        if(isLoading)
+        {
+            return
+        }
+        else{
+            const bottom = target.scrollHeight - target.scrollTop === target.clientHeight;
+        
+            if (bottom) { 
+                console.log("Bottom reached")
+
+                pageCounter+=1
+                setIsLoading(true)
+                getContributors(pageCounter)
+            }
+        }
+        
+    }  
+
     return <>
-        <h1>{props.text}</h1>
-        <div className={clstyle.grid_list}>
+        <div className={clstyle.text}><h1>{props.text}</h1></div>
+        <div className={clstyle.grid_list} onScroll={(e: any) => handleScroll(e.target)}>
             {isLoading? "Loading data..." : 
                 contributors.map((contributor : contributorType, key: number): JSX.Element =>{
                     return <Contributor login={contributor.login} id={contributor.id} 
