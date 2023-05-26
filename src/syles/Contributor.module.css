@@ -7,3 +7,42 @@
     font-size: 30px;
     text-align: center;
 }
+.contributor_card:hover
+{
+    background-color: rgba(143, 239, 250, 0.8);
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    margin: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+.contributor_img
+{
+    max-width: 100px;
+    max-height: 100px;
+    float:left;
+}
+.contribution_number
+{
+    font-family: monospace;
+    font-size: 12pt;
+    text-align: left;
+    padding-top: 5px;
+}
+.profile a:link {
+    color: black;
+    background-color: transparent;
+    text-decoration: none;
+  }
+  
+.profile a:visited {
+    color: black;
+    background-color: transparent;
+    text-decoration: none;
+  }
+  
+.profile  a:hover {
+    color: rgb(0, 11, 219);
+    background-color: transparent;
+    text-decoration: none;
+  }

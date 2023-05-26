@@ -10,7 +10,7 @@ const Page:FC<PageProps> = (props)=>
 {
     return  <>
                 {/*Hátha több elemünk is lesz*/}
-                <ContributorList text='Top Contributors' perPageLimit={10}/>
+                <ContributorList text='Top contributors for Angular' perPageLimit={40}/>
             </>
 }
 
