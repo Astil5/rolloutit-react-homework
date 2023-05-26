@@ -1,0 +1,9 @@
+.contributor_card
+{
+    background-color: rgba(143, 239, 250, 0.8);
+    border: 1px solid rgba(163, 163, 163, 0.8);
+    padding: 20px;
+    margin: 20px;
+    font-size: 30px;
+    text-align: center;
+}
