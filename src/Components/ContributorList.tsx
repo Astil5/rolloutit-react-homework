@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Octokit } from "octokit";
 
-import Contributor from './Contributor';
+import ContributorComp from './Contributor';
 
 import clstyle from '../syles/ContributorList.module.css'
 
@@ -32,7 +32,7 @@ const ContributorList = (props: ContributorListProps) => {
     //Make Request
     const getContributors = useCallback(async function (pageNumber: number) { // Külön service réteg-be tegyem bele
         /*
-        A service fájlban lévő függvényt lehessen más repo-ra is meghívni
+        A service fájlban lévő függvényt lehessen más repo-ra is meghívni (Generizálás)
         Objektum a paramétere a függvénynek
         */
         try {
@@ -46,15 +46,15 @@ const ContributorList = (props: ContributorListProps) => {
                     'X-GitHub-Api-Version': '2022-11-28'
                 }
             })
-            response.data.forEach((rawContributor: any): void => { //Maposítani
-                const contributor: Contributor = {
-                    login: rawContributor.login, id: rawContributor.id,
-                    avatarUrl: rawContributor.avatar_url, contributions: rawContributor.contributions,
-                    reposUrl: rawContributor.repos_url, htmlUrl: rawContributor.html_url
-                }
-                setContributors(contributors => [...contributors, contributor]);
+            setContributors(contributors => contributors.concat(response.data.map(row => {
+                let contributor: Contributor = {
+                    login: row.login!, id: row.id as number,
+                    avatarUrl: row.avatar_url as string, contributions: row.contributions as number,
+                    reposUrl: row.repos_url as string, htmlUrl: row.html_url as string
+                };
+                return contributor
             })
-            return response.data
+            ));
         }
         catch (error: unknown) { // kell visszajelzés a user felé
             console.error(error)
@@ -84,7 +84,7 @@ const ContributorList = (props: ContributorListProps) => {
         <div className={clstyle.grid_list} onScroll={(e: any) => handleScroll(e.target)}>
             {
                 contributors.map((contributor, key: number): JSX.Element => {
-                    return <Contributor login={contributor.login} id={contributor.id}
+                    return <ContributorComp login={contributor.login} id={contributor.id}
                         avatarUrl={contributor.avatarUrl} contributions={contributor.contributions}
                         reposUrl={contributor.reposUrl} htmlUrl={contributor.htmlUrl} key={contributor.login} />
 
